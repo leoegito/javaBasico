@@ -1,6 +1,6 @@
 package entities;
 
-import java.time.Instant;
+//import java.time.Instant;
 import java.util.Date;
 
 public class Client {
@@ -9,11 +9,11 @@ public class Client {
 	private String email;
 	private Date birthDate;
 
-	public Client(String nome, String email, String data){
+	public Client(String nome, String email, Date data){
 		
 		this.name = nome;
 		this.email = email;
-		this.birthDate = Date.from(Instant.parse(data));
+		this.birthDate = data;
 	}
 
 	public String getName() {

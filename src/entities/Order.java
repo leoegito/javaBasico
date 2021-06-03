@@ -8,15 +8,16 @@ import entities.enums.OrderStatus;
 
 public class Order {
 	
-	private String moment = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+	private String moment;
 	private OrderStatus status;
 	private ArrayList<OrderItem> OrderItens = new ArrayList <OrderItem>();
 	private Client client;
 	
 	
-	public Order(String moment, OrderStatus status) {
-		this.moment = moment;
+	public Order(OrderStatus status, Client cliente) {
+		this.moment = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
 		this.status = status;
+		this.client = cliente;
 	}
 	
 	
@@ -60,17 +61,20 @@ public class Order {
 	
 	public String toString() {
 		StringBuilder retorno = new StringBuilder();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		retorno.append("ORDER SUMARY:\n");
 		retorno.append("Order moment: " +this.moment+"\n");
 		retorno.append("Order status: " +this.status+"\n");
-		retorno.append("Client: " +this.client.getName()+ "("+this.client.getBirthDate()+")"+" - " +this.client.getEmail()+"\n");
+		String data = sdf.format(this.client.getBirthDate());
+		retorno.append("Client: " +this.client.getName()+ " (" +data +")"+" - " +this.client.getEmail()+"\n");
 		retorno.append("Order items:\n");
 		for(OrderItem item : OrderItens) {
-			retorno.append(item.produto.getName()+", ");
+			retorno.append(item.produto.getName() +", ");
+			retorno.append(String.format("$ %.2f, ",item.produto.getPrice()));
 			retorno.append("Quantity: " +item.getQuantity()+", ");
-			retorno.append("Subtotal: " +item.subTotal() +"\n");
+			retorno.append(String.format("Subtotal: $ %.2f\n", item.subTotal()));
 		}
-		retorno.append("Total price: $" +this.total());
+		retorno.append(String.format("Total price: $ %.2f", this.total()));
 		
 		return retorno.toString();
 	}
